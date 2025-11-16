@@ -1,7 +1,9 @@
-package org.example.app;
+package org.example.tickets;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.example.checker.Solution;
 
 public class HappyTickets implements Solution {
     
@@ -17,24 +19,29 @@ public class HappyTickets implements Solution {
         return Long.toString(solve(n));
     }
     
-//    private long solve(int n) {
+//    private long solve2(int n) {
+//        long result = 0;
 //        
-//        long currN = 2;
-//        long currMul = 1;
-//        // C(n+k-1, k-1)^2 Идея решения
-//        // где n = N*9, k = N
-//        // результат сокращения дроби (n+k-1)!/(n+k-1 - k-1)! считаем полученное произведение
-//        // одновременно по возможности делим на множители (k-1)! 
-//        for (int i = n*9+1; i <= n*9+(n-1); i ++) {
-//            currMul *= i;
-//            currMul = (currN < n && currMul % currN == 0) ? currMul / currN ++ : currMul;
+//        while (n > 0) {
+//            long currN = 2;
+//            long currMul = 1;
+//            // C(n+k-1, k-1)^2 Идея решения
+//            // где n = N*9, k = N
+//            // результат сокращения дроби (n+k-1)!/(n+k-1 - k-1)! считаем полученное произведение
+//            // одновременно по возможности делим на множители (k-1)! 
+//            for (int i = n*9+1; i <= n*9+(n-1); i ++) {
+//                currMul *= i;
+//                currMul = (currN < n && currMul % currN == 0) ? currMul / currN ++ : currMul;
+//            }
+//            
+//            while (currN < n) {
+//                currMul /= currN ++;
+//            }
+//            
+//            result += currMul*currMul;
+//            n --;
 //        }
-//        
-//        while (currN < n) {
-//            currMul /= currN ++;
-//        }
-//        
-//        return currMul*currMul;
+//        return result;
 //    }
     
     private long solve(int n) {
