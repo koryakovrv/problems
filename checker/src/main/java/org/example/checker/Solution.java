@@ -1,4 +1,4 @@
-package org.example.app;
+package org.example.checker;
 
 import java.util.List;
 
