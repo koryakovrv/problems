@@ -9,10 +9,11 @@ public class Fib implements Solution {
 
     @Override
     public String solve(List<String> args) {
-        var res = fib2(Long.parseLong(args.get(0)));
+        var res = matrixFib(Long.parseUnsignedLong(args.get(0)));
         return String.valueOf(res);
     }
     
+    // рекурсия
     private long fib1(long n) {
         if (n == 1 || n == 2 ) return 1;
         if (n == 0) return 0;
@@ -20,8 +21,9 @@ public class Fib implements Solution {
         return fib1(n - 1) + fib1(n - 2);
     }
     
+    // итеративный
     private BigDecimal fib2(long n) {
-        BigDecimal result = new BigDecimal(0);
+        BigDecimal result = BigDecimal.ZERO;
         
         if (n == 1 || n == 2) return result.add(BigDecimal.ONE);
         if (n == 0) return new BigDecimal(0);
@@ -36,4 +38,20 @@ public class Fib implements Solution {
         
         return result;
     }
+    
+    // через возведение матрицы в степень
+    private BigDecimal matrixFib(long n) {
+        if (n == 1 || n == 2 ) return BigDecimal.ONE;
+        if (n == 0) return BigDecimal.ZERO;
+        
+        BigDecimal a[][] = new BigDecimal[][] {
+            {BigDecimal.ONE, BigDecimal.ONE}, 
+            {BigDecimal.ONE, BigDecimal.ZERO}};
+            
+        var res = MatrixUtil.pow(a, n-2);
+        
+        return res[0][0];
+    }
+    
 }
+
