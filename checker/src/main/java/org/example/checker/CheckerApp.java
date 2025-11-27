@@ -5,13 +5,15 @@ package org.example.checker;
 
 import java.io.IOException;
 
-import org.example.lesson3.Primes;
+import org.example.sort.HeapSort;
 
 public class CheckerApp {
     public static void main(String[] args) throws IOException {
         //Checker checker = new Checker(new HappyTickets(), "/happy-tickets/", "/happy-tickets/");
         //Checker checker = new Checker(new Pow(), "/pow/", "/pow/");
         //Checker.check(new Fib(), "/fibs/", "/fibs/");
-        Checker.check(new Primes(), "/primes/", "/primes/");
+        //Checker.check(new Primes(), "/primes/", "/primes/");
+        //Checker.check(new SelectionSort(), "/sort/", "/sort/");
+        Checker.check(new HeapSort(), "/sort/", "/sort/");
     }
 }

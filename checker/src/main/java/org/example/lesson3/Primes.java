@@ -9,7 +9,7 @@ public class Primes implements Solution {
 
     @Override
     public String solve(List<String> args) {
-        return String.valueOf(linearSieveBitOptimized(Integer.parseInt(args.get(0))));
+        return String.valueOf(linearSieve(Integer.parseInt(args.get(0))));
         
     }
 
@@ -21,12 +21,11 @@ public class Primes implements Solution {
         
         for (int i = 2; i <= n; i ++) {
             if (lp[i] == 0) {
-                lp[i] = 1;
                 primes.add(i);
             }
             
             // Ключевой момент: умножаем только на подходящие простые
-            for (int j = 0; j < primes.size(); j++) {
+            for (int j = 0; j < primes.size(); j ++) {
                 int p = primes.get(j);
                 if (p > i || p * i > n) break;
                 lp[p * i] = 1;  // Каждое составное число помечается ОДИН раз
@@ -51,9 +50,9 @@ public class Primes implements Solution {
                 primes.add(i);
             }
             
-            for (int j = 0; j < primes.size(); j++) {
+            for (int j = 0; j < primes.size(); j ++) {
                 int p = primes.get(j);
-                if (p * i > n) break;
+                if (p > i || p * i > n) break;
                 
                 int composite = p * i;
                 int compIntPos = composite / 32;
@@ -61,8 +60,6 @@ public class Primes implements Solution {
                 int compMask = 1 << compBitPos;
                 
                 isPrime[compIntPos] |= compMask;
-                
-                if (i % p == 0) break;
             }
         }
         return primes.size();

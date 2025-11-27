@@ -58,7 +58,7 @@ public class MatrixUtil {
         }
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a[0].length; j++) {
-                BigDecimal aij = a[i][j]; // для уменьшения обращений к памяти
+                BigDecimal aij = a[i][j];
                 for (int k = 0; k < result[0].length; k ++) {
                     result[i][k] = result[i][k].add(aij.multiply(b[j][k]));
                 }
