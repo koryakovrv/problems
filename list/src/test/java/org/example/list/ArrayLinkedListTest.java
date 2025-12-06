@@ -3,48 +3,50 @@
  */
 package org.example.list;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class LinkedListTest {
+class ArrayLinkedListTest {
     @Test void testConstructor() {
-        LinkedList list = new LinkedList();
-        assertEquals(0, list.size());
+        ArrayLinkedList<String> list = new ArrayLinkedList<>();
+        assertEquals(0, list.getSize());
     }
 
     @Test void testAdd() {
-        LinkedList list = new LinkedList();
+        ArrayLinkedList<String> list = new ArrayLinkedList<>();
 
         list.add("one");
-        assertEquals(1, list.size());
+        assertEquals(1, list.getSize());
         assertEquals("one", list.get(0));
 
         list.add("two");
-        assertEquals(2, list.size());
+        assertEquals(2, list.getSize());
         assertEquals("two", list.get(1));
     }
 
     @Test void testRemove() {
-        LinkedList list = new LinkedList();
+        ArrayLinkedList<String> list = new ArrayLinkedList<>();
 
         list.add("one");
         list.add("two");
-        assertTrue(list.remove("one"));
+        assertTrue(list.remove(0));
 
-        assertEquals(1, list.size());
+        assertEquals(1, list.getSize());
         assertEquals("two", list.get(0));
 
-        assertTrue(list.remove("two"));
-        assertEquals(0, list.size());
+        assertTrue(list.remove(0));
+        assertEquals(0, list.getSize());
     }
 
     @Test public void testRemoveMissing() {
-        LinkedList list = new LinkedList();
+        ArrayLinkedList<String> list = new ArrayLinkedList<>();
 
         list.add("one");
         list.add("two");
-        assertFalse(list.remove("three"));
-        assertEquals(2, list.size());
+        assertFalse(list.remove(2));
+        assertEquals(2, list.getSize());
     }
 }
