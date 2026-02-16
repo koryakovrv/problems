@@ -2,23 +2,23 @@ package org.example.hashtable;
 import java.util.Arrays;
 
 /*
- * Хэш-таблица с квадратичным пробированием
+ * Хэш-таблица с квадратичным пробингом
  */
-public class OpenAddressingHashTable {
+public class OpenAddressingHashTable<K, V> {
     private static final int DEFAULT_CAPACITY = 17;
     private static final double LOAD_FACTOR_THRESHOLD = 0.7;
     private static final Entry DELETED = new Entry(null, null); // шапка
     
-    private Entry[] table;
+    private Entry<K, V>[] table;
     private int size;
     private int capacity;
     
     // Вспомогательный класс для хранения записей
-    private static class Entry {
-        Object key;
-        Object value;
+    private static class Entry<K, V> {
+        K key;
+        V value;
         
-        Entry(Object key, Object value) {
+        Entry(K key, V value) {
             this.key = key;
             this.value = value;
         }
@@ -30,7 +30,7 @@ public class OpenAddressingHashTable {
     
     public OpenAddressingHashTable(int initialCapacity) {
         this.capacity = initialCapacity;
-        this.table = new Entry[capacity];
+        this.table = (Entry<K, V>[])new Entry[capacity];
         this.size = 0;
     }
     
@@ -81,7 +81,7 @@ public class OpenAddressingHashTable {
                 return;
             }
             
-            i++;
+            i ++;
             index = quadraticProbe(hash, i);
         }
         

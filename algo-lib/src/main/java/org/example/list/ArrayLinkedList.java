@@ -1,6 +1,7 @@
 package org.example.list;
 
 import java.util.NoSuchElementException;
+import java.util.function.Consumer;
 
 /**
  * Связный список на смежной памяти
@@ -18,17 +19,17 @@ public class ArrayLinkedList<E> {
     private int head;        // индекс первого элемента
     private int tail;        // индекс последнего элемента
     private int size;
-    private float loadFactor;
+    private float growFactor;
     
     public ArrayLinkedList() {
         this(DEFAULT_CAPACITY, DEFAULT_FACTOR);
     }
     
-    public ArrayLinkedList(int initialCapacity, float loadFactor) {
+    public ArrayLinkedList(int initialCapacity, float growFactor) {
         if (initialCapacity <= 0) {
             throw new IllegalArgumentException("Initial capacity must be positive");
         }
-        if (loadFactor <= 1.0f) {
+        if (growFactor <= 1.0f) {
             throw new IllegalArgumentException("Load factor must be > 1.0");
         }
         
@@ -45,7 +46,7 @@ public class ArrayLinkedList<E> {
         freeTop = initialCapacity - 1;  // стек растет сверху вниз
         head = tail = -1;  // список пустой
         size = 0;
-        this.loadFactor = loadFactor;
+        this.growFactor = growFactor;
     }
     
     public void add(final E element) {
@@ -117,7 +118,7 @@ public class ArrayLinkedList<E> {
         }
         
         int current = head;
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i < index; i ++) {
             current = next[current];
         }
         
@@ -147,7 +148,7 @@ public class ArrayLinkedList<E> {
     }
     
     private void grow() {
-        int newLength = Math.max(2, (int)(elements.length * loadFactor));
+        int newLength = Math.max(2, (int)(elements.length * growFactor));
         
         // Сохраняем старые массивы
         E[] oldElements = elements;
@@ -172,6 +173,14 @@ public class ArrayLinkedList<E> {
         // Копируем старые свободные элементы
         System.arraycopy(oldFree, 0, free, newLength - oldElements.length, oldFree.length);
         freeTop += newLength - oldElements.length;
+    }
+    
+    public void forEach(Consumer<E> c) {
+        int current = head;
+        while (current != -1) {
+            c.accept(elements[current]);
+            current = next[current];
+        }
     }
     
     @Override
