@@ -55,7 +55,7 @@ public class CSRGraph<T> {
         for (int i = 0; i < g.vs.length; i ++) {
             System.out.println("Вершины смежные с " + g.vs[i]);
             
-            for (int j = g.head[i]; j <  g.head[i + 1]; j ++) {
+            for (int j = g.head[i]; j < g.head[i + 1]; j ++) {
                 System.out.println(g.list[j]);
             }
         }
