@@ -92,7 +92,7 @@ public class OpenAddressingHashTable<K, V> {
     /**
      * Поиск значения по ключу с реализацией ленивого удаления
      */
-    public Object get(Object key) {
+    public V get(Object key) {
         if (key == null) {
             return null;
         }
@@ -114,7 +114,7 @@ public class OpenAddressingHashTable<K, V> {
                     table[firstDeletedIndex] = table[index];
                     table[index] = DELETED;
                 }
-                return entry.value;
+                return (V)entry.value;
             }
             
             i ++;
