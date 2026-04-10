@@ -1,7 +1,9 @@
 package org.example.graphs;
 
+import org.example.graphs.CSRGraph.Edge;
 import org.example.hashtable.OpenAddressingHashTable;
 import org.example.list.ArrayLinkedList;
+
 
 public class Kraskal {
     // собственная реализация хэш-таблицы с квадратичным пробингом
@@ -10,9 +12,7 @@ public class Kraskal {
             new OpenAddressingHashTable<>();
     ArrayLinkedList<Edge> mst = new ArrayLinkedList<>();
     
-    private record Edge(int from, int to) {}
-    
-    public void solve(CSRGraph<String> g) {
+    public void solve(CSRGraph<Character> g) {
         for (int i = 0; i < g.vs.length; i ++) {
             parent.put(i, i);
         }
@@ -24,7 +24,7 @@ public class Kraskal {
                     // Объединяем множества
                     union(i, to);
                     // Добавляем ребро в MST
-                    mst.add(new Edge(i, to));
+                    mst.add(new Edge(i, to, 0));
                 }
             }
         }
@@ -70,21 +70,22 @@ public class Kraskal {
     }
 
     public static void main(String[] args) {
-        CSRGraph<String> g = new CSRGraph<>(new String[]{"a", "b", "c", "d"},
+        CSRGraph<Character> g = new CSRGraph<Character>(new Character[]{'a', 'b', 'c', 'd'},
                 // { верш. 1, верш. 2, вес }
                 // инициализация структыры с оглавлением 
                 // выполняется списком ребер отсортированых по весу
-                new int[][] {{0, 1, 0}, {0, 2, 1}, {0, 3, 2},
-                             {1, 2, 3}, {1, 3, 4},
-                             {2, 1, 5}, {2, 3, 6}});
-        
+                new Edge[] {new Edge(0, 1, 0), new Edge(0, 2, 1),  new Edge(0, 3, 2),
+                        new Edge(1, 2, 3),  new Edge(1, 3, 4),
+                        new Edge(2, 1, 5), new Edge(2, 3, 6)});
+                        
+                               
         
         Kraskal kraskal = new Kraskal();
         kraskal.solve(g);
         
         for (int i = 0; i < kraskal.mst.getSize(); i ++) {
             var e = kraskal.mst.get(i);
-            System.out.println(g.vs[e.from] + " - " + g.vs[e.to]);
+            System.out.println(g.vs[e.source()] + " - " + g.vs[e.target()]);
         }
     }
 }
