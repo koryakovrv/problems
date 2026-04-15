@@ -1,11 +1,65 @@
 package org.example.other;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class BoyerMoore {
+    
+    /**
+     * Упрощенный алгоритм Бойера-Мура-Хорспула
+     * @param text текст, в котором ищем
+     * @param pattern образец для поиска
+     * @return список индексов начала вхождений
+     */
+    public static List<Integer> searchHorspool(String text, String pattern) {
+        List<Integer> result = new ArrayList<Integer>();
+        var shiftTable = buildShiftTable(pattern);
+        
+        int len = text.length();
+        int i = 0;
+        
+        
+        while (i <= len - pattern.length()) {
+            int j = pattern.length() - 1;
+            while (j >= 0 && text.charAt(i + j) == pattern.charAt(j)) {
+                j --;
+            }
+            
+            if (j < 0) {
+                result.add(i);
+                i ++;
+            } else {
+
+                char badChar = text.charAt(i + j);
+                int lastPos = shiftTable.getOrDefault(badChar, -1);
+                
+                int shift = j - lastPos;
+                if (shift < 1) shift = 1;
+                
+                i += shift;
+            }
+        }
+        
+        return result;
+    }
+    
+    /**
+     * Формируем таблицу смещений 
+     * @param pattern
+     * @return
+     */
+    private static Map<Character, Integer> buildShiftTable(String pattern) {
+        Map<Character, Integer> result = new HashMap<>();
+        
+        for (int i = 0; i < pattern.length(); i ++) {
+            result.put(pattern.charAt(i), i);
+        }
+        
+        return result;
+    }
     
     /**
      * Поиск всех вхождений образца в текст с использованием алгоритма Бойера-Мура
@@ -45,12 +99,8 @@ public class BoyerMoore {
                 // Образец найден
                 occurrences.add(shift);
                 
-                // Сдвигаем так, чтобы следующий суффикс совпал
-                if (shift + patternLength < textLength) {
-                    shift += patternLength - (goodSuffixTable[0] != -1 ? goodSuffixTable[0] : 1);
-                } else {
-                    shift++;
-                }
+                shift += goodSuffixTable[0];
+                
             } else {
                 // Вычисляем сдвиг по правилу стоп-символов
                 char badChar = text.charAt(shift + j);
@@ -95,23 +145,25 @@ public class BoyerMoore {
      * @return массив сдвигов для каждого суффикса
      */
     private static int[] buildGoodSuffixTable(String pattern) {
-        int length = pattern.length();
-        int[] borderPos = new int[length + 1];  // Граничные позиции
-        int[] shift = new int[length + 1];      // Таблица сдвигов
+        int m = pattern.length();
+        int[] shift = new int[m + 1];
+        int[] borderPos = new int[m + 1];
         
         // Инициализация
-        for (int i = 0; i <= length; i++) {
-            shift[i] = 0;
+        for (int i = 0; i <= m; i++) {
+            shift[i] = m; // по умолчанию сдвиг = длина образца
         }
         
-        // Находим границы для каждого суффикса
-        borderPos[length] = length + 1;
-        int i = length;
-        int j = length + 1;
+        // borderPos[i] - позиция начала границы для суффикса, начинающегося на i
+        borderPos[m] = m + 1;
+        int i = m;
+        int j = m + 1;
         
+        // Первый проход: находим границы для каждого суффикса
         while (i > 0) {
-            while (j <= length && pattern.charAt(i - 1) != pattern.charAt(j - 1)) {
-                if (shift[j] == 0) {
+            // Ищем границу
+            while (j <= m && pattern.charAt(i - 1) != pattern.charAt(j - 1)) {
+                if (shift[j] == m) {
                     shift[j] = j - i;
                 }
                 j = borderPos[j];
@@ -121,10 +173,10 @@ public class BoyerMoore {
             borderPos[i] = j;
         }
         
-        // Заполняем оставшиеся значения
+        // Второй проход: заполняем оставшиеся значения
         j = borderPos[0];
-        for (i = 0; i <= length; i++) {
-            if (shift[i] == 0) {
+        for (i = 0; i <= m; i++) {
+            if (shift[i] == m) {
                 shift[i] = j;
             }
             if (i == j) {
@@ -132,6 +184,7 @@ public class BoyerMoore {
             }
         }
         
+        System.out.println("Результат: " + Arrays.toString(shift));
         return shift;
     }
     
@@ -145,7 +198,7 @@ public class BoyerMoore {
         
         System.out.println("Текст: " + text);
         System.out.println("Образец: " + pattern);
-        List<Integer> result = search(text, pattern);
+        List<Integer> result = searchHorspool(text, pattern);
         System.out.println("Найден на позициях: " + result);
         if (!result.isEmpty()) {
             System.out.println("Подтверждение: " + text.substring(result.get(0), 
@@ -160,7 +213,7 @@ public class BoyerMoore {
         
         System.out.println("Текст: " + text);
         System.out.println("Образец: " + pattern);
-        result = search(text, pattern);
+        result = searchHorspool(text, pattern);
         System.out.println("Найден на позициях: " + result);
         
         System.out.println("\n" + "=".repeat(50) + "\n");
@@ -171,7 +224,7 @@ public class BoyerMoore {
         
         System.out.println("Текст: " + text);
         System.out.println("Образец: " + pattern);
-        result = search(text, pattern);
+        result = searchHorspool(text, pattern);
         System.out.println("Результат: " + (result.isEmpty() ? "Не найден" : "Найден на " + result));
         
         System.out.println("\n" + "=".repeat(50) + "\n");
@@ -182,7 +235,7 @@ public class BoyerMoore {
         
         System.out.println("Текст: " + text);
         System.out.println("Образец: " + pattern);
-        result = search(text, pattern);
+        result = searchHorspool(text, pattern);
         System.out.println("Найден на позициях: " + result);
         System.out.println("Всего вхождений: " + result.size());
         
@@ -194,7 +247,7 @@ public class BoyerMoore {
         
         System.out.println("Текст: " + text);
         System.out.println("Образец: " + pattern);
-        result = search(text, pattern);
+        result = searchHorspool(text, pattern);
         System.out.println("Найден на позициях: " + result);
         if (!result.isEmpty()) {
             System.out.println("Подтверждение: " + text.substring(result.get(0), 
