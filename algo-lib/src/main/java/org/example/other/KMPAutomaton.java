@@ -35,7 +35,6 @@ class KMPAutomaton {
     }
     
     private int[] buildPrefixFunction(String pattern) {
-        int m = pattern.length();
         int[] pi = new int[m];
         int k = 0;
         
@@ -61,7 +60,7 @@ class KMPAutomaton {
             
             if (state == m) {
                 occurrences.add(i - m + 1);
-                state = transition[state][c]; // Продолжаем поиск
+                //state = transition[state][c]; // Продолжаем поиск
             }
         }
         
