@@ -22,7 +22,7 @@ class KMPAutomaton {
         transition = new int[m + 1][256]; // 256 - размер ASCII алфавита
         
         for (int state = 0; state <= m; state++) {
-            for (char c = 0; c < 256; c++) {
+            for (char c = 0; c < 256; c ++) {
                 if (state < m && c == pattern.charAt(state)) {
                     transition[state][c] = state + 1;
                 } else if (state > 0) {

@@ -5,7 +5,7 @@ package org.example.checker;
 
 import java.io.IOException;
 
-import org.example.sort.HeapSort;
+import org.example.bits.chesse.HorseProblem;
 
 public class CheckerApp {
     public static void main(String[] args) throws IOException {
@@ -14,6 +14,9 @@ public class CheckerApp {
         //Checker.check(new Fib(), "/fibs/", "/fibs/");
         //Checker.check(new Primes(), "/primes/", "/primes/");
         //Checker.check(new SelectionSort(), "/sort/", "/sort/");
-        Checker.check(new HeapSort(), "/sort/", "/sort/");
+        // Checker.check(new HeapSort(), "/sort/", "/sort/");
+        
+       // Checker.check(new KingProblem(), "/bits/chesse/king/", "/bits/chesse/king/");
+        Checker.check(new HorseProblem(), "/bits/chesse/horse/", "/bits/chesse/horse/");
     }
 }
