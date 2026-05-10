@@ -12,11 +12,18 @@ public class ShellSort {
         int gap = n / 2;
         
         while (gap > 0) {
-            for (int i = gap; i < n; i++) {
+            for (int i = gap; i < n; i ++) {
+                int t = a[i];
                 int j = i;
-                while (j >= gap && a[j - gap] > a[j]) {
-                    swap(a, j, j - gap);
+                
+                while (j >= gap && a[j - gap] > t) {
+                    a[j] = a[j - gap];
+                    swaps ++;
                     j -= gap;
+                }
+                if (j != i) {
+                    a[j] = t;
+                    swaps++;
                 }
             }
             gap /= 2;

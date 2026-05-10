@@ -9,9 +9,9 @@ public class BubbleSort {
     
     static void sort(int[] a) {
         for (int i = 0; i < a.length - 1; i ++) {
-            for (int j = i + 1; j < a.length; j ++) {
-                if (a[i] > a[j]) {
-                    swap(a, i, j);
+            for (int j = 1; j < a.length - i; j ++) {
+                if (a[j - 1] > a[j]) {
+                    swap(a, j - 1, j);
                 }
             }
         }
@@ -73,7 +73,7 @@ public class BubbleSort {
     
     
     public static void main(String[] args) {
-        int n = 50_000;
+        int n = 50000;
         
         int[] a = createRandom(n);
         System.out.println("Array of " + n + " elements.");
@@ -82,7 +82,7 @@ public class BubbleSort {
         Instant finish = Instant.now();
         System.out.println("Bubble sorting time is " + Duration.between(start, finish).toMillis() + " ms");
         System.out.println("Swappings is " + swaps);
-        
+        //System.out.println(Arrays.toString(a));
         
         a = createRandom(n);
         System.out.println("Array of " + n + " elements.");
@@ -91,6 +91,5 @@ public class BubbleSort {
         finish = Instant.now();
         System.out.println("Optimized bubble time is " + Duration.between(start, finish).toMillis() + " ms");
         System.out.println("Swappings is " + swaps);
-        //System.out.println(Arrays.toString(a));
     } 
 }
