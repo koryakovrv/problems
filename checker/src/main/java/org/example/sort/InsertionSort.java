@@ -20,20 +20,6 @@ public class InsertionSort {
         }
     }
     
-    static void optimizedSort(int[] a) {
-        int j;
-        
-        for (int i = 1; i < a.length; i ++) {
-            int t = a[i];
-            
-            for (j = i; j > 0 && t < a[j - 1]; j --) {
-                a[j] = a[j - 1];
-            }
-            
-            a[j] = t;
-        }
-    }
-    
     static int[] createRandom(int n) {
         int[] result = new int[n];
         Random r = new Random();
