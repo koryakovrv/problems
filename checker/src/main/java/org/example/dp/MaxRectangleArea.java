@@ -8,8 +8,13 @@ import java.util.Arrays;
 import java.util.Deque;
 
 public class MaxRectangleArea {
+    private static int[] left;
+    private static int[] right;
+    private static Deque<Integer> stack = new ArrayDeque<>();
     
     public static int findMaxRectangleArea(int N, int M, int[][] obstacles) {
+        left = new int[M];
+        right = new int[M];
         
         boolean[][] free = new boolean[N][M];
         for (int i = 0; i < N; i++) {
@@ -35,7 +40,7 @@ public class MaxRectangleArea {
                     heights[j] = 0;
                 }
             }
-            
+            stack.clear();
             maxArea = Math.max(maxArea, maxRect(heights));
         }
         
@@ -44,13 +49,8 @@ public class MaxRectangleArea {
     
     private static int maxRect(int[] heights) {
         int n = heights.length;
-        int[] left = new int[n];
-        int[] right = new int[n];
         
-        
-        Deque<Integer> stack = new ArrayDeque<>();
-        
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i ++) {
             while (!stack.isEmpty() && heights[stack.peek()] >= heights[i]) {
                 stack.pop();
             }
