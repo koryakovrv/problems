@@ -5,7 +5,7 @@ package org.example.checker;
 
 import java.io.IOException;
 
-import org.example.bits.chesse.HorseProblem;
+import org.example.dp.BigIsland;
 
 public class CheckerApp {
     public static void main(String[] args) throws IOException {
@@ -17,6 +17,7 @@ public class CheckerApp {
         // Checker.check(new HeapSort(), "/sort/", "/sort/");
         
        // Checker.check(new KingProblem(), "/bits/chesse/king/", "/bits/chesse/king/");
-        Checker.check(new HorseProblem(), "/bits/chesse/horse/", "/bits/chesse/horse/");
+       // Checker.check(new HorseProblem(), "/bits/chesse/horse/", "/bits/chesse/horse/");
+        Checker.check(new BigIsland(), "/dp/island/", "/dp/island/");
     }
 }
